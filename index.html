@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+        }
+        .calculator {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .display-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.8em;
+            border: none;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+            text-align: right;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        input:focus {
+            outline: none;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            padding: 18px 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        button:hover {
+            background-color: #e9ecef;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .operator {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .equals {
+            background-color: #4dabf7;
+            color: white;
+            grid-row: span 2;
+        }
+        .clear {
+            background-color: #ff8787;
+            color: white;
+        }
+        .backspace {
+            background-color: #ffa94d;
+            color: white;
+        }
+        .zero {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display-container">
+            <input type="text" id="display" disabled>
+        </div>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="backspace" onclick="backspace()">⌫</button>
+            <button class="operator" onclick="appendValue('/')">/</button>
+            <button class="operator" onclick="appendValue('*')">×</button>
+            
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('-')">−</button>
+            
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+            
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button class="equals" onclick="calculateResult()">=</button>
+            
+            <button class="zero" onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+        </div>
+    </div>
+    
+    <script>
+        function appendValue(value) {
+            document.getElementById("display").value += value;
+        }
+        
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+        
+        function backspace() {
+            var display = document.getElementById("display");
+            display.value = display.value.slice(0, -1);
+        }
+        
+        function calculateResult() {
+            try {
+                var display = document.getElementById("display");
+                // Replace the display symbols with actual operators for evaluation
+                var expression = display.value
+                    .replace(/×/g, '*')
+                    .replace(/−/g, '-');
+                display.value = eval(expression);
+            } catch (error) {
+                document.getElementById("display").value = "Error";
+                setTimeout(clearDisplay, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
